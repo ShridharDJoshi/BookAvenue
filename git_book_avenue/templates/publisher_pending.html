@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="fade-in-up" style="max-width: 600px; margin: 80px auto; text-align: center; padding: 40px; background: var(--card-bg); border-radius: 15px; box-shadow: var(--shadow);">
+    <div style="font-size: 4rem; margin-bottom: 20px;">⏳</div>
+    <h2 style="color: var(--text-main);">Account Pending Approval</h2>
+    <p style="color: var(--text-muted); margin-top: 10px;">
+        Thank you for signing up as a Publisher! <br>
+        Your account is currently under review by our administrators.
+    </p>
+    <p style="margin-top: 20px; font-weight: bold; color: var(--primary);">
+        Please check back later.
+    </p>
+    <a href="{% url 'home' %}" class="btn" style="margin-top: 20px;">Back to Home</a>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="fade-in-up" style="text-align: center; padding: 80px 20px; background: var(--card-bg); border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 50px;">
+    <h1 style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;">About Us</h1>
+    <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto;">
+        Books Avenue : Online Book Store 
+    </p>
+</div>
+
+<div class="fade-in-up delay-200" style="display: flex; gap: 50px; flex-wrap: wrap; align-items: center; margin-bottom: 80px;">
+    <div style="flex: 1; min-width: 300px;">
+        <h2 style="font-size: 2rem; margin-bottom: 20px; color: var(--text-main);">Project Description</h2>
+        <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 20px;">
+            Books Avenue is an online bookstore platform designed to make book shopping simple, enjoyable, and personalized. Users can browse, search, and explore books by genre, author, or category, view detailed information including descriptions and cover images, and purchase their favorite books through a seamless checkout process. 
+            <br><br>
+            The platform also offers smart recommendations, suggesting books based on users’ past interests and purchases. Built entirely with <strong>Django</strong> for the backend and HTML, CSS, and JavaScript for a clean and aesthetic frontend, Books Avenue provides both users and admins an intuitive experience — users can manage their accounts and orders, while admins can efficiently track sales and inventory.
+        </p>
+        <a href="{% url 'home' %}" class="btn" style="margin-top: 10px;">Start Reading</a>
+    </div>
+</div>
+
+<div class="fade-in-up delay-300" style="text-align: center; margin-bottom: 50px;">
+    <h2 style="font-size: 2rem; margin-bottom: 40px; color: var(--text-main);">Why Choose Us?</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+        
+        <div style="background: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+            <div style="font-size: 3rem; margin-bottom: 15px;">🚀</div>
+            <h3 style="margin-bottom: 10px; color: var(--text-main);">Fast Delivery</h3>
+            <p style="color: var(--text-muted);">We ship your books within 24 hours of ordering.</p>
+        </div>
+
+        <div style="background: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+            <div style="font-size: 3rem; margin-bottom: 15px;">🤖</div>
+            <h3 style="margin-bottom: 10px; color: var(--text-main);">Smart Recommendations</h3>
+            <p style="color: var(--text-muted);">Our recommendation engine learns what you love.</p>
+        </div>
+
+        <div style="background: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+            <div style="font-size: 3rem; margin-bottom: 15px;">🔒</div>
+            <h3 style="margin-bottom: 10px; color: var(--text-main);">Secure Payments</h3>
+            <p style="color: var(--text-muted);">Your transactions are safe and encrypted.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

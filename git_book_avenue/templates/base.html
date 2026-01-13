@@ -1,0 +1,387 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books Avenue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- MODERN THEME VARIABLES --- */
+        :root {
+            /* Default (Light Mode) */
+            --primary: #2C5F2D;       
+            --primary-dark: #1E4220;  
+            --bg-color: #f0f0f0;      
+            --card-bg: #FFFFFF;       
+            --text-main: #333333;
+            --text-muted: #666666;
+            --border-color: #eee;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.12);
+            --accent: #FFC107;
+        }
+
+        /* --- DARK MODE VARIABLES --- */
+        body.dark-mode {
+            --primary: #4CAF50;       
+            --primary-dark: #2C5F2D;  
+            --bg-color: #121212;      
+            --card-bg: #1E1E1E;       
+            --text-main: #E0E0E0;     
+            --text-muted: #B0B0B0;    
+            --border-color: #333;
+            --shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
+            --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px); /* Starts lower */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-enter {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* --- GLOBAL STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            color: var(--text-main);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease, opacity 0.2s ease;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- NAVBAR --- */
+        nav { 
+            background-color: var(--card-bg); 
+            padding: 1rem 2rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease;
+        }
+
+        nav .brand { 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            color: var(--primary); 
+            letter-spacing: -0.5px;
+        }
+
+        nav .nav-actions { display: flex; align-items: center; gap: 20px; }
+
+        nav a.nav-link { 
+            font-weight: 500; 
+            color: var(--text-main); 
+            font-size: 1rem;
+        }
+
+        nav a.nav-link.active { 
+            color: var(--primary); 
+            font-weight: 700; 
+            border-bottom: 2px solid var(--primary); 
+        }
+        
+        nav a.nav-link:hover { color: var(--primary); }
+
+        nav input[type="text"] {
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-main);
+            border-radius: 20px;
+            padding: 8px 15px;
+            width: 250px;
+            transition: 0.3s;
+            outline: none;
+        }
+        nav input[type="text"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44, 95, 45, 0.1);
+        }
+
+        /* --- BUTTONS --- */
+        .btn { 
+            display: inline-block;
+            background-color: var(--primary); 
+            color: #FFFFFF; 
+            padding: 10px 24px; 
+            border-radius: 50px; 
+            font-weight: 600; 
+            border: none; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(44, 95, 45, 0.2);
+        }
+        
+        .btn:hover { 
+            background-color: var(--primary-dark); 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(44, 95, 45, 0.3);
+            color: #FFFFFF;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: #FFFFFF;
+        }
+
+        /* --- LAYOUT --- */
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+
+        /* --- CARD GRID --- */
+        .book-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+            gap: 30px; 
+        }
+
+        .book-card { 
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            box-shadow: var(--shadow); 
+            text-align: left; 
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            color: var(--text-main);
+        }
+
+        .book-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: var(--shadow-hover); 
+        }
+
+        .book-card img { 
+            width: 100%; 
+            height: 320px; 
+            object-fit: cover; 
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        
+        .book-card h3 { font-size: 1.1rem; margin-bottom: 5px; color: var(--text-main); }
+        .book-card p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; }
+        
+        .price { 
+            color: var(--primary); 
+            font-weight: 700; 
+            font-size: 1.3rem; 
+            margin-top: auto; 
+            display: block; 
+            margin-bottom: 15px;
+        }
+
+        /* --- FORMS --- */
+        label { font-weight: 600; display: block; margin-top: 15px; color: var(--text-main); }
+        
+        /* UPDATED: Includes number (price/stock) and file (image) inputs */
+        input[type="text"], 
+        input[type="password"], 
+        input[type="email"], 
+        input[type="number"], 
+        input[type="file"], 
+        textarea, 
+        select { 
+            width: 100%; 
+            padding: 12px; 
+            margin: 8px 0; 
+            border: 2px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            border-radius: 8px; 
+            font-family: inherit;
+        }
+        
+        input:focus, select:focus, textarea:focus { 
+            border-color: var(--primary); 
+            outline: none; 
+            box-shadow: 0 0 0 3px rgba(44, 95, 45, 0.1);
+        }
+        
+        /* Optional: Fix for file input text color in dark mode */
+        input[type="file"] {
+            padding: 9px; /* File inputs sometimes need slightly less padding */
+        }
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px); /* Start 30px lower */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);    /* End in normal position */
+            }
+        }
+
+        /* The class to apply the animation */
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0; /* Hidden by default until animation starts */
+        }
+        
+        /* Optional: Stagger the delay so items load one by one */
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+
+        /* "New Release" Tag Style */
+        .badge-new {
+            position: absolute;
+            top: 10px;
+            right: 10px;          /* Top Right Corner */
+            background-color: #d32f2f; /* Red Color */
+            color: white;
+            padding: 5px 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 20px;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="{% url 'home' %}" class="brand">Books Avenue.</a>
+        
+        <form action="{% url 'home' %}" method="get" style="display:inline;">
+            <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
+        </form>
+
+        <div class="nav-actions">
+            <button id="theme-toggle" class="btn-outline" style="border-radius: 50%; width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; margin-right: 15px; border: 1px solid var(--text-muted);">
+                🌙
+            </button>
+
+            <a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Shop</a>
+            
+            {% if user.is_authenticated %}
+                
+                {% if user.userprofile.is_publisher %}
+                    <a href="{% url 'publisher_dashboard' %}" class="nav-link" style="color: var(--accent); font-weight: bold;">
+                        Dashboard
+                    </a>
+                {% endif %}
+
+                {% if user.is_staff %}
+                    <a href="{% url 'manager_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'manager_dashboard' %}active{% endif %}">Dashboard</a>
+                {% endif %}
+
+                <a href="{% url 'cart_view' %}" class="nav-link {% if request.resolver_match.url_name == 'cart_view' %}active{% endif %}">
+                    Cart ({{ request.session.cart|length }})
+                </a>
+
+                <a href="{% url 'profile' %}" class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+                    {{ user.username }}
+                </a>
+                
+                <a href="{% url 'logout' %}" class="nav-link" style="color: var(--text-muted); cursor: pointer;">
+                    Logout
+                </a>
+
+            {% else %}
+                <a href="{% url 'login' %}" class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}">Login</a>
+                <a href="{% url 'signup' %}" class="btn">Sign Up</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer style="background: var(--card-bg); border-top: 1px solid var(--border-color); padding: 60px 20px; margin-top: 80px; box-shadow: 0 -4px 10px rgba(0,0,0,0.02);">
+        <div class="container" style="margin: 0 auto; max-width: 1200px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
+            <div>
+                <h3 style="color: var(--primary); font-size: 1.5rem; font-weight: 700; margin-bottom: 15px;">Books Avenue.</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+                    Your favorite local bookstore, now online. Explore the best fiction, science, and history books just for you.
+                </p>
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <span style="background: var(--primary); color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">FB</span>
+                    <span style="background: var(--primary); color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">IG</span>
+                    <span style="background: var(--primary); color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">X</span>
+                </div>
+            </div>
+            <div>
+                <h4 style="color: var(--text-main); font-weight: 600; margin-bottom: 20px;">Quick Links</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px;"><a href="{% url 'home' %}" style="color: var(--text-muted);">Home</a></li>
+                    <li style="margin-bottom: 10px;"><a href="{% url 'about' %}" style="color: var(--text-muted);">About Us</a></li>
+                    <li style="margin-bottom: 10px;"><a href="{% url 'home' %}" style="color: var(--text-muted);">Shop Books</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="color: var(--text-main); font-weight: 600; margin-bottom: 20px;">Team Members</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="color: var(--text-muted); margin-bottom: 10px; font-size: 0.95rem; font-weight: 400;">Shivam Bharad</li>
+                    <li style="color: var(--text-muted); margin-bottom: 10px; font-size: 0.95rem; font-weight: 400;">Shridhar Joshi</li>
+                    <li style="color: var(--text-muted); margin-bottom: 10px; font-size: 0.95rem; font-weight: 400;">Kartik Jadhav</li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid var(--border-color); color: #999; font-size: 0.85rem;">
+            &copy; Books Avenue : Online Book Store : Built with Django.
+        </div>
+    </footer>
+
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            toggleBtn.innerHTML = '☀️';
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                toggleBtn.innerHTML = '☀️';
+            } else {
+                localStorage.setItem('theme', 'light');
+                toggleBtn.innerHTML = '🌙';
+            }
+        });
+    </script>
+</body>
+</html>

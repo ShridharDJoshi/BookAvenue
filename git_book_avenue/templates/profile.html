@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="fade-in-up" style="max-width: 800px; margin: 0 auto;">
+    
+    <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+            <h1 style="color: var(--primary); margin-bottom: 5px;">Hello, {{ user.username }}</h1>
+            <p style="color: #666;">Here is your order history.</p>
+        </div>
+        <div style="background: var(--primary); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold;">
+            {{ user.username|make_list|first|upper }}
+        </div>
+    </div>
+
+    <h3 style="margin-bottom: 20px;">Your Orders</h3>
+
+    {% if orders %}
+        {% for order in orders %}
+        <div style="background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 20px;">
+            
+            <div style="background: #f8f9fa; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee;">
+                <div>
+                    <span style="font-weight: bold; color: var(--primary);">Order #ORD-{{ order.id|stringformat:"05d" }}</span>
+                    <span style="color: #999; font-size: 0.9rem; margin-left: 10px;">{{ order.created_at|date:"M d, Y" }}</span>
+                </div>
+                <div>
+                    {% if order.paid %}
+                        <span style="background: #e6f4ea; color: #1e7e34; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">Paid</span>
+                    {% else %}
+                        <span style="background: #fff3cd; color: #856404; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">Pending</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div style="padding: 20px;">
+                {% for item in order.items.all %}
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #eee;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        {% if item.book.image %}
+                            <img src="{{ item.book.image.url }}" style="width: 50px; height: 70px; object-fit: cover; border-radius: 4px;">
+                        {% else %}
+                            <div style="width: 50px; height: 70px; background: #eee; border-radius: 4px;"></div>
+                        {% endif %}
+                        <div>
+                            <p style="font-weight: 600; margin-bottom: 2px;">{{ item.book.title }}</p>
+                            <p style="font-size: 0.9rem; color: #666;">Qty: {{ item.quantity }}</p>
+                        </div>
+                    </div>
+                    <span style="font-weight: bold;">₹{{ item.price }}</span>
+                </div>
+                {% endfor %}
+                
+                <div style="text-align: right; margin-top: 15px;">
+                    <span style="color: #666; margin-right: 10px;">Total Amount:</span>
+                    <span style="font-size: 1.2rem; color: var(--primary); font-weight: bold;">
+                        ₹{{ order.get_total_cost }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div style="text-align: center; padding: 50px; background: white; border-radius: 12px;">
+            <p style="color: #666;">You haven't placed any orders yet.</p>
+            <a href="{% url 'home' %}" class="btn" style="margin-top: 15px;">Start Shopping</a>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

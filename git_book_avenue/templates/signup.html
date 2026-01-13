@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="fade-in-up" style="max-width: 450px; margin: 60px auto; padding: 40px; background: var(--card-bg); border-radius: 15px; box-shadow: var(--shadow); border: 1px solid var(--border-color); text-align: center;">
+    
+    <h2 style="margin-bottom: 30px; color: var(--text-main); font-weight: 700;">Create an Account</h2>
+
+    <form method="post" style="text-align: left;">
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <div style="margin-bottom: 20px;">
+                
+                {% if field.name == 'is_publisher' %}
+                    <div style="display: flex; align-items: center; gap: 10px; background: var(--bg-color); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        {{ field }}
+                        <label for="{{ field.id_for_label }}" style="margin: 0; color: var(--text-main); cursor: pointer;">{{ field.label }}</label>
+                    </div>
+                {% else %}
+                    <label for="{{ field.id_for_label }}" style="display: block; margin-bottom: 8px; color: var(--text-main); font-weight: 600;">{{ field.label }}</label>
+                    {{ field }}
+                {% endif %}
+
+                {% if field.errors %}
+                    <div style="color: #c62828; font-size: 0.85rem; margin-top: 5px;">{{ field.errors.0 }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn" style="width: 100%; padding: 12px; margin-top: 10px; font-size: 1.1rem;">Sign Up</button>
+    </form>
+
+    <p style="margin-top: 20px; color: var(--text-muted); font-size: 0.9rem;">
+        Already have an account? <a href="{% url 'login' %}" style="color: var(--primary); font-weight: bold;">Login here</a>
+    </p>
+
+</div>
+
+{% endblock %}

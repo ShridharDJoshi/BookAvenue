@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="fade-in-up" style="max-width: 600px; margin: 80px auto; text-align: center; background: var(--card-bg); padding: 50px; border-radius: 15px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+    
+    <div style="font-size: 3rem; margin-bottom: 20px;">🎓</div>
+    
+    <h1 style="color: var(--text-main); margin-bottom: 10px;">Student Discount</h1>
+    <p style="color: var(--text-muted); margin-bottom: 30px;">
+        Verify your student status to unlock an exclusive <strong>10% OFF</strong> coupon code.
+    </p>
+
+    <form method="post" style="text-align: left;">
+        {% csrf_token %}
+        
+        <label style="color: var(--text-main);">Enter College / University ID:</label>
+        <input type="text" name="student_id" placeholder="e.g. STU-2024-001" required 
+               style="width: 100%; padding: 12px; margin: 10px 0 20px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-color); color: var(--text-main);">
+
+        {% if error_message %}
+            <div style="background: #ffebee; color: #c62828; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ffcdd2; font-size: 0.9rem; font-weight: 600;">
+                ⚠️ {{ error_message }}
+            </div>
+        {% endif %}
+
+        <button type="submit" class="btn" style="width: 100%; padding: 12px; font-size: 1.1rem;">Verify ID</button>
+    </form>
+    
+    <div style="margin-top: 20px;">
+        <a href="{% url 'home' %}" style="color: var(--text-muted); font-size: 0.9rem; text-decoration: underline;">Back to Home</a>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    /* Styling for the manual input fields */
+    .checkout-form input, 
+    .checkout-form textarea {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 2px solid #ccc; /* Visible grey border */
+        border-radius: 8px;
+        background-color: white;
+        font-family: inherit;
+        box-sizing: border-box; /* Prevents width issues */
+    }
+
+    .checkout-form input:focus, 
+    .checkout-form textarea:focus {
+        border-color: var(--primary);
+        outline: none;
+    }
+
+    .checkout-form label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        color: var(--text-main);
+    }
+</style>
+
+<div class="checkout-container fade-in-up" style="max-width: 900px; margin: 40px auto; display: grid; grid-template-columns: 1fr 0.8fr; gap: 40px;">
+
+    <div class="checkout-form">
+        <h2 style="margin-bottom: 20px; color: var(--text-main);">Checkout</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <label>full Name</label>
+            <input type="text" name="full_name" required>
+            
+            <label>Email Address</label>
+            <input type="email" name="email" required>
+            
+            <label>Shipping Address</label>
+            <textarea name="address" rows="3" required></textarea>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <label>City</label>
+                    <input type="text" name="city" required >
+                </div>
+                <div>
+                    <label>Zip Code</label>
+                    <input type="text" name="zip_code" required>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 20px; font-size: 1.1rem; color: var(--text-main);">Payment Method</h3>
+            <div style="padding: 15px; border: 1px solid #ccc; border-radius: 8px; background: #f9f9f9; color: #555; margin-bottom: 20px;">
+                💳 <strong>credit Card</strong> (Dummy)<br>
+                <small> just for demo purpose .</small>
+            </div>
+            
+            <button type="submit" class="btn" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+                Place Order
+            </button>
+        </form>
+    </div>
+
+    <div style="background: var(--card-bg); padding: 30px; border-radius: 12px; height: fit-content; border: 1px solid var(--border-color); box-shadow: var(--shadow);">
+        <h3 style="margin-bottom: 20px; color: var(--text-main); border-bottom: 2px solid var(--border-color); padding-bottom: 10px;">Order Summary</h3>
+        
+        {% for item in cart_items %}
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 0.9rem;">
+            <span style="color: var(--text-main);">{{ item.book.title }} <span style="color: var(--text-muted);">x {{ item.quantity }}</span></span>
+            <span style="font-weight: bold; color: var(--text-main);">₹{% widthratio item.book.price 1 item.quantity %}</span>
+        </div>
+        {% endfor %}
+
+        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--border-color); display: flex; justify-content: space-between; font-size: 1.4rem; font-weight: bold; color: var(--primary);">
+            <span>Total</span>
+            <span>₹{{ total_price }}</span>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    @media (max-width: 768px) {
+        .checkout-container { grid-template-columns: 1fr !important; }
+        .checkout-container > div:nth-child(2) { order: -1; margin-bottom: 20px; }
+    }
+</style>
+
+{% endblock %}

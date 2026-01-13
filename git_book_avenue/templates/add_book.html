@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="fade-in-up" style="max-width: 600px; margin: 50px auto; padding: 40px; background: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow);">
+    <h2>{% if is_edit %}Edit Book{% else %}Add New Book{% endif %}</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table style="width: 100%; margin-bottom: 20px;">
+            {{ form.as_table }}
+        </table>
+        <button type="submit" class="btn">Save Book</button>
+    </form>
+</div>
+{% endblock %}

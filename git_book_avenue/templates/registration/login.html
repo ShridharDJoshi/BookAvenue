@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    /* 1. FORCE INPUT VISIBILITY */
+    /* This ensures boxes are white with a grey border so you can see them immediately */
+    .login-container input {
+        background-color: #ffffff !important;
+        border: 2px solid #ccc !important;
+        color: #333 !important;
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        box-sizing: border-box; /* Keeps padding inside the width */
+    }
+
+    /* 2. HIGHLIGHT ON CLICK */
+    .login-container input:focus {
+        border-color: var(--primary) !important;
+        outline: none;
+        box-shadow: 0 0 5px rgba(44, 95, 45, 0.2);
+    }
+    
+    /* 3. ENSURE LABELS ARE VISIBLE */
+    .login-container label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--text-main);
+    }
+</style>
+
+<div class="login-container fade-in-up" style="max-width: 400px; margin: 80px auto; padding: 40px; background: var(--card-bg); border-radius: 15px; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+    
+    <h2 style="text-align: center; margin-bottom: 30px; color: var(--text-main);">Login</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div>
+            <label for="id_username">Username</label>
+            {{ form.username }}
+        </div>
+        
+        <div style="margin-top: 15px;">
+            <label for="id_password">Password</label>
+            {{ form.password }}
+        </div>
+
+        <button type="submit" class="btn" style="width: 100%; margin-top: 25px; padding: 12px;">Login</button>
+    </form>
+    
+    <p style="text-align: center; margin-top: 20px; color: var(--text-muted);">
+        Don't have an account? <a href="{% url 'signup' %}" style="color: var(--primary); font-weight: bold;">Sign up</a>
+    </p>
+
+</div>
+
+{% endblock %}
